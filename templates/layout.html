@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <!-- http://getbootstrap.com/docs/5.1/ -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- https://favicon.io/emoji-favicons/money-bag/ -->
+    <link href="/static/favicon.ico" rel="icon" />
+
+    <link href="/static/styles.css" rel="stylesheet">
+    {% block script %}{% endblock %}
+    <title>CS50 ToDo: {% block title %}{% endblock %}</title>
+  </head>
+
+  <body data-bs-theme="dark">
+    <nav class="container-fluid">
+      <div class="" id="navbar">
+        <ul class="nav nav-tabs justify-content-center m-5 pe-5">
+          <li class="nav-item align-self-start">
+            <a class="nav-link" href="/">CS50 ToDo Project</a>
+          </li>
+          {% if session["user_id"] %}
+          {% block nav %}
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add_todo">Add ToDo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/history">History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Log Out</a>
+          </li>
+        </ul>
+        {% endblock %}
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Log In</a>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+    </nav>
+
+    {% if get_flashed_messages() %}
+    <header>
+      <div class="alert alert-primary mb-0 text-center" id="flash-message" role="alert">
+        {{ get_flashed_messages() | join(" ") }}
+      </div>
+    </header>
+    {% endif %}
+    <main class="container w-75 my-2">
+      {% block main %} {% endblock %}
+    </main>
+
+    <footer class="mb-5 small text-center text-muted">
+      CS50 ToDo Project by jbalibrea
+    </footer>
+  </body>
+</html>

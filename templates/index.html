@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block script %}
+<script src="/static/script.js" defer></script>
+{% endblock %}
+
+{% block titte %}
+  summarizing
+{% endblock %}
+
+{% block nav %}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page"   href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/add_todo">Add ToDo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/history">History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Log Out</a>
+          </li>
+        </ul>
+{% endblock %}
+{% block main %}
+<h1 class="display-1 text-center">{{userName}} personal ToDo's ✌️📑</h1>
+{% if userDetails %}
+  {% set task_number = 1 %}
+  {% for task_number in range(1, userDetails|length + 1) %}
+        <div class="card mt-2 card-container {% if userDetails[loop.index0]["state"] == 'done' %}opacity-25{% else %}{% endif %}" data-id={{userDetails[loop.index0]["id"]}}>
+            <h5 class="card-header {% if userDetails[loop.index0]["state"] == 'done' %}line-through{% else %}{% endif %}"" data-id={{userDetails[loop.index0]["id"]}}>ToDo {{task_number}} of {{userDetails|length}}</h5>
+            <div class="d-flex flex-row align-items-center p-2">
+              <div class="card-body">
+                <h5 class="card-title {% if userDetails[loop.index0]["state"] == 'done' %}line-through{% else %}{% endif %}" data-id={{userDetails[loop.index0]["id"]}}>{{userDetails[loop.index0]["title"]}}</h5>
+                <p class="card-text {% if userDetails[loop.index0]["state"] == 'done' %}line-through{% else %}{% endif %}" ondblclick="makeEditable(this, {{userDetails[loop.index0]['id']}})"  data-id={{userDetails[loop.index0]["id"]}}>{{userDetails[loop.index0]["todo"] | safe}}</p>
+                <p class="card-text"><small class="text-body-secondary">Created: {{userDetails[loop.index0]["time"]}}</small></p>
+              </div>
+              <div class="d-flex flex-row gap-2">
+                <a class="btn {% if userDetails[loop.index0]["state"] == 'done' %}btn-secondary{% else %}btn-success{% endif %}" data-id={{userDetails[loop.index0]["id"]}}>DONE</a>
+                <a class="btn btn-danger" data-id={{userDetails[loop.index0]["id"]}}>DELETE</a>
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+  {% endif %}
+{% endblock %}
